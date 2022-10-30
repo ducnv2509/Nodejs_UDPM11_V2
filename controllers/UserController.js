@@ -15,7 +15,6 @@ export async function register(email, name, pass, phone, username) {
 
 
 export async function login(username, password) {
-    let params = [username, password]
     let queryFindPass = `select password as 'pwd' from customer_account where username = '${username}'`
     myLogger.info("Query %o", queryFindPass)
     const resultPass = await query(queryFindPass);

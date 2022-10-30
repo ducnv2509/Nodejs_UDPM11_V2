@@ -1,4 +1,4 @@
-import { createPool } from "mysql";
+import { createPool } from "mysql2";
 import { POOL} from "../config/config.js";
 import dotenv from 'dotenv';
 import myLogger from "../winstonLog/winston.js";
