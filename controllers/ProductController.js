@@ -19,22 +19,25 @@ export async function getAllProduct() {
 }
 
 
-export async function getDetailsProduct(id) {
+export async function getDetailsProduct(idtxt) {
     let sqlGetOptionProduct = "call getOptionProduct(?)";
     let sqlGetDetailProduct = "call getDetailProduct(?)";
-    let params = [id];
+    let params = [idtxt];
     let Option1 = [];
     let Option2 = [];
     let Option3 = [];
+    let InfoProduct = [];
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let resultGetOptionProduct = await query(sqlGetOptionProduct, params);
     let resultGetDetailProduct = await query(sqlGetDetailProduct, params);
+    let { quantity, product_id, id, name, image, wholesale_price, option1, option2, option3 } = resultGetDetailProduct[0][0];
+    InfoProduct.push({ quantity, product_id, id, name: name.split('-')[0], image, price: wholesale_price, option1, option2, option3 })
     let { OP1, OP2, OP3 } = resultGetOptionProduct[0][0];
     Option1.push(OP1.split(','))
     Option2.push(OP2.split(','))
     Option3.push(OP3.split(','))
     myLogger.info("%o", resultGetDetailProduct[0][0])
-    ret = { statusCode: OK, data: { Option1: Option1[0], Option2: Option2[0], Option3: Option3[0], InfoProduct: resultGetDetailProduct[0][0] } };
+    ret = { statusCode: OK, data: { Option1: Option1[0], Option2: Option2[0], Option3: Option3[0], InfoProduct: InfoProduct[0] } };
     return ret;
 }
 
