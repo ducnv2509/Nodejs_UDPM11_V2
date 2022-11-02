@@ -3,7 +3,7 @@ import { privateKEY, publicKEY } from '../ConfigKey.js';
 import { Unauthorized } from '../constant/HttpResponseCode.js';
 import myLogger from '../winstonLog/winston.js'
 
-export function validateTokenStaffAccess(req, res, next) {
+export function ValidateToken(req, res, next) {
     let { token } = req.headers;
     if (!token) {
         return next({ statusCode: Unauthorized, error: "NO_TOKEN", description: "Không có Token" });
@@ -14,7 +14,7 @@ export function validateTokenStaffAccess(req, res, next) {
     try {
         let payload = jsonwebtoken.verify(token, publicKEY, verifyOptions);
         req.payload = payload;
-        let { username, type, name, email, phone } = payload;
+        let { username, type, name, email, phone, id } = payload;
         // myLogger.info("tenants: %o", tenants)
         if (type !== "ACCESS_TOKEN") {
             return next({ statusCode: Unauthorized, error: "WRONG_TOKEN", description: "Wrong token type" });
@@ -26,13 +26,13 @@ export function validateTokenStaffAccess(req, res, next) {
 }
 
 
-export function genToken(username, name, email, phone) {
+export function genToken(username, name, email, phone, id) {
     let signOptions = {
         expiresIn: "3h",
         algorithm: "RS256"
     }
     myLogger.info('Generate accesstoken for:' + username);
-    let payload = { username, type: "ACCESS_TOKEN", name, email, phone };
+    let payload = { username, type: "ACCESS_TOKEN", name, email, phone, id };
     let accessToken = jsonwebtoken.sign(payload, privateKEY, signOptions);
     return accessToken;
 }

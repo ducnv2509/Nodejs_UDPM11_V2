@@ -30,7 +30,8 @@ export async function login(username, password) {
                 let ret = result[0][0];
                 let { res, id, name, email, phone } = ret;
                 if (res == 1) {
-                    let accessToken = genToken(username, name, email, phone);
+                    let accessToken = genToken(username, name, email, phone, id);
+                    myLogger.info('BUg %o', {username, name, email, phone, id})
                     let refreshToken = genRefreshToken(username, name, email, phone);
                     return { statusCode: OK, data: { id, name, email, phone, type: 'user', accessToken, refreshToken } }
                 } else {

@@ -48,7 +48,7 @@ export async function getProductVarientByOption(op1, op2, op3, id_product) {
     let sql = `call getProductByOption(?, ?, ?, ?)`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
-    let { id, name, option1, option2, option3, price, image, product_id, quantity } = result[0][0]
-    ret = { statusCode: OK, data: { id, name: name.split('-')[0], option1, option2, option3, price, image, product_id, quantity } };
+    let {id, name, option1, option2, option3, price, image, product_id, quantity} = result[0][0]
+    ret = { statusCode: OK, data: {id, name: name.split('-')[0], option1, option2, option3, price, image, product_id, quantity} };
     return ret;
 }
