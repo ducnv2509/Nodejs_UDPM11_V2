@@ -30,9 +30,9 @@ export async function login(username, password) {
                 let ret = result[0][0];
                 let { res, id, name, email, phone } = ret;
                 if (res == 1) {
-                    let accsessToken = genToken(username, name, email, phone);
+                    let accessToken = genToken(username, name, email, phone);
                     let refreshToken = genRefreshToken(username, name, email, phone);
-                    return { statusCode: OK, data: { id, name, email, phone, type: 'user', accsessToken, refreshToken } }
+                    return { statusCode: OK, data: { id, name, email, phone, type: 'user', accessToken, refreshToken } }
                 } else {
                     return { statusCode: Unauthorized, error: 'USERNAME_NOT_FOUND', description: 'username not found' };
                 }
