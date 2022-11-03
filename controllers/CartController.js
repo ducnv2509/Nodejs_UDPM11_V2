@@ -12,7 +12,10 @@ export async function addToCart(id_user, id_product_varient, quantity) {
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let resultConvert = await query(convertTo0, paramsConvert);
     let resultQuantity = await query(sqlQuantitt);
-    myLogger.info('resultQuantity %o', resultQuantity);
+    // myLogger.info('resultQuantity %o', resultQuantity);
+    myLogger.info('sl mua %o', quantity)
+    myLogger.info('sl trong cart %o', resultConvert[0][0].quantity);
+    myLogger.info('sl sp %o', resultQuantity[0].quantity);
 
     if (resultConvert[0][0].quantity + quantity > resultQuantity[0].quantity) {
         ret = { statusCode: BAD_REQUEST, error: 'ERROR', description: 'Số lượng trong kho không đủ' };
