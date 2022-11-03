@@ -1,4 +1,4 @@
-import { OK, SYSTEM_ERROR } from "../constant/HttpResponseCode.js";
+import { BAD_REQUEST, OK, SYSTEM_ERROR } from "../constant/HttpResponseCode.js";
 import query from "../helper/helperDb.js";
 import myLogger from "../winstonLog/winston.js";
 
@@ -48,7 +48,12 @@ export async function getProductVarientByOption(op1, op2, op3, id_product) {
     let sql = `call getProductByOption(?, ?, ?, ?)`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
-    let {id, name, option1, option2, option3, price, image, product_id, quantity} = result[0][0]
-    ret = { statusCode: OK, data: {id, name: name.split('-')[0], option1, option2, option3, price, image, product_id, quantity} };
+    myLogger.info("BUG %o", result[0][0]);
+    if (result[0][0] == undefined) {
+        ret = { statusCode: BAD_REQUEST, data: 'Hết Hàng' }
+    } else {
+        let { id, name, option1, option2, option3, price, image, product_id, quantity } = result[0][0]
+        ret = { statusCode: OK, data: { id, name: name.split('-')[0], option1, option2, option3, price, image, product_id, quantity } };
+    }
     return ret;
 }
