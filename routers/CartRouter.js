@@ -1,5 +1,5 @@
 import express from 'express';
-import { addToCart } from '../controllers/CartController.js';
+import { addToCart, showCart } from '../controllers/CartController.js';
 import myLogger from '../winstonLog/winston.js';
 const router = express.Router();
 
@@ -11,6 +11,14 @@ router.post('/', async (req, res, next) => {
     next(response);
 })
 
+
+
+router.get('/:id_user', async (req, res, next) => {
+    let { id_user } = req.params
+    myLogger.info("ID User %o", id_user)
+    let response = await showCart(id_user);
+    next(response);
+})
 // router.post('/login', async (req, res, next) => {
 //     let { username, password } = req.body;
 //     let response = await login(username, password);
