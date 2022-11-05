@@ -31,11 +31,22 @@ export async function addToCart(id_user, id_product_varient, quantity) {
 
 export async function showCart(id_user) {
     let params = [id_user];
-    let sql = `select pv.id, pv.name, pv.wholesale_price, ci.quantity, pv.image, pv.wholesale_price * ci.quantity as 'priceTotal', option1, option2, option3 from cart_items ci join cart c on ci.id_cart = c.id
-    join product_variant pv on pv.id = ci.id_product where c.account_id =` + id_user +' order by ci.id desc';
+    let sql = `select pv.id as 'id_product_variant', ci.id as 'id_cart_item', pv.name, pv.wholesale_price, ci.quantity, pv.image, pv.wholesale_price * ci.quantity as 'priceTotal', option1, option2, option3 from cart_items ci join cart c on ci.id_cart = c.id
+    join product_variant pv on pv.id = ci.id_product where c.account_id =` + id_user + ' order by ci.id desc';
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
     myLogger.info("result %o", result)
     ret = { statusCode: OK, data: result };
+    return ret;
+}
+addOrderPurchase
+
+export async function addOrderPurchase(id_user, address, note, id_cart_items) {
+    let params = [id_user, address, note, id_cart_items];
+    let sql = `call addOrderPurchase(?, ?, ?, ?)`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result[0][0])
+    ret = { statusCode: OK, data: result[0] };
     return ret;
 }
