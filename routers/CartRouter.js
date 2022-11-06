@@ -24,11 +24,6 @@ router.get('/:id_user', async (req, res, next) => {
     let response = await showCart(id_user);
     next(response);
 })
-router.post('/getCartItem', async (req, res, next) => {
-    let {id} = req.payload;
-    let { id_cart_item } = req.body;
-    let response = await getCartItemById(id_cart_item, id);
-    next(response);
-})
+
 
 export default router;
