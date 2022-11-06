@@ -39,7 +39,6 @@ export async function showCart(id_user) {
     ret = { statusCode: OK, data: result };
     return ret;
 }
-addOrderPurchase
 
 export async function addOrderPurchase(id_user, address, note, id_cart_items) {
     let params = [id_user, address, note, id_cart_items];
@@ -48,5 +47,21 @@ export async function addOrderPurchase(id_user, address, note, id_cart_items) {
     let result = await query(sql, params);
     myLogger.info("result %o", result[0][0])
     ret = { statusCode: OK, data: result[0] };
+    return ret;
+}
+
+export async function getCartItemById(id, id_user) {
+    let params = [id, id_user];
+    let sql = `select cart_items.*, pv.image, pv.wholesale_price, pv.name, pv.option1, pv.option2, pv.option3,
+    cart_items.quantity * pv.wholesale_price as 'priceTotal'
+from cart_items
+      join cart on cart_items.id_cart = cart.id
+join product_variant pv on pv.id = cart_items.id_product
+where cart_items.id in (${id})
+and account_id = ${id_user}`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result)
+    ret = { statusCode: OK, data: result };
     return ret;
 }
