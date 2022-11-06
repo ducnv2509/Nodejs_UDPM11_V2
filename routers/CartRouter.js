@@ -13,8 +13,8 @@ router.post('/', async (req, res, next) => {
 
 router.post('/addOrderPurchase', async (req, res, next) => {
     let { id } = req.payload
-    let { address, note, id_cart_items } = req.body
-    let response = await addOrderPurchase(id, address, note, id_cart_items);
+    let { address, note, id_cart_items, money_fee } = req.body
+    let response = await addOrderPurchase(id, address, note, id_cart_items, money_fee);
     next(response);
 })
 
