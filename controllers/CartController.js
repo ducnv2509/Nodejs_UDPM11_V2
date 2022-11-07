@@ -42,7 +42,10 @@ export async function showCart(id_user) {
 
 export async function addOrderPurchase(id_user, address, note, id_cart_items, moneyFee) {
     let params = [id_user, address, note, id_cart_items, moneyFee];
-    let sql = `call addOrderPurchase(?, ?, ?, ?, ?)`;
+    let i = [];
+    i.push(id_cart_items)
+    console.log("%o", i)
+    let sql = `call addOrderPurchase(?, ?, ?, '?', ?)`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     try {
         let result = await query(sql, params);
