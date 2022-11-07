@@ -44,9 +44,13 @@ export async function addOrderPurchase(id_user, address, note, id_cart_items, mo
     let params = [id_user, address, note, id_cart_items, moneyFee];
     let sql = `call addOrderPurchase(?, ?, ?, ?, ?)`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
-    let result = await query(sql, params);
-    myLogger.info("result %o", result[0][0])
-    ret = { statusCode: OK, data: result[0] };
+    try {
+        let result = await query(sql, params);
+        myLogger.info("result %o", result)
+        ret = { statusCode: OK, data: result[0] };
+    } catch (e) {
+        myLogger.info('BUG %o', e)
+    }
     return ret;
 }
 

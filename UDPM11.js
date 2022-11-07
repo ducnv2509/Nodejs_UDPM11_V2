@@ -3,6 +3,7 @@ import { BAD_REQUEST, CREATED, NO_CONTENT, OK } from './constant/HttpResponseCod
 import userAPI from './routers/UserRouter.js';
 import productAPI from './routers/ProductRouter.js';
 import fetchAPI from './routers/FetchAPIRouter.js';
+import historyOrder from './routers/HistoryRouter.js';
 import cartAPI from './routers/CartRouter.js';
 import myLogger from './winstonLog/winston.js';
 import dotenv from 'dotenv';
@@ -22,6 +23,7 @@ app.use('/api/user', userAPI);
 app.use('/api/product', productAPI);
 app.use('/api/fetch', fetchAPI);
 app.use('/api/cart', ValidateToken, cartAPI);
+app.use('/api/history', ValidateToken, historyOrder);
 
 
 app.use((data, req, res, next) => {
