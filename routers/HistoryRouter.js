@@ -4,10 +4,11 @@ import myLogger from '../winstonLog/winston.js';
 const router = express.Router();
 
 
-router.get('/', async (req, res, next) => {
+router.get('/:status_id', async (req, res, next) => {
     let { id } = req.payload;
+    let { status_id } = req.params;
     myLogger.info("ID User %o", id)
-    let response = await getHistoryOrder(id);
+    let response = await getHistoryOrder(id, status_id);
     next(response);
 })
 
