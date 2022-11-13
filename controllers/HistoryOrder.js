@@ -31,3 +31,14 @@ export async function getOrderItemByHistory(id_order) {
     ret = { statusCode: OK, data: result };
     return ret;
 }
+
+
+export async function updateStatusDelivery(status_id, id_Order) {
+    let params = [parseInt(status_id), parseInt(id_Order)];
+    let sql = `update order_purchase set status = ${status_id} where id  = ${id_Order}`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result)
+    ret = { statusCode: OK, data: result };
+    return ret;
+}

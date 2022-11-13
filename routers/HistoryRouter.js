@@ -1,5 +1,5 @@
 import express from 'express';
-import { getHistoryOrder, getOrderItemByHistory } from '../controllers/HistoryOrder.js';
+import { getHistoryOrder, getOrderItemByHistory, updateStatusDelivery } from '../controllers/HistoryOrder.js';
 import myLogger from '../winstonLog/winston.js';
 const router = express.Router();
 
@@ -16,6 +16,13 @@ router.get('/by/:status_id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     let { id } = req.params;
     let response = await getOrderItemByHistory(id);
+    next(response);
+})
+
+router.put('/update/:idOrder', async (req, res, next) => {
+    let { idOrder } = req.params;
+    let { status_id } = req.query;
+    let response = await updateStatusDelivery(status_id, idOrder);
     next(response);
 })
 
