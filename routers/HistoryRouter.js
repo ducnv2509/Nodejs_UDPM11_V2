@@ -19,7 +19,7 @@ router.get('/:id', async (req, res, next) => {
     next(response);
 })
 
-router.put('/update/:idOrder', async (req, res, next) => {
+router.get('/update/:idOrder', async (req, res, next) => {
     let { idOrder } = req.params;
     let { status_id } = req.query;
     let response = await updateStatusDelivery(status_id, idOrder);
