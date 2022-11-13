@@ -4,7 +4,7 @@ import myLogger from '../winstonLog/winston.js';
 const router = express.Router();
 
 
-router.get('/:status_id', async (req, res, next) => {
+router.get('/by/:status_id', async (req, res, next) => {
     let { id } = req.payload;
     let { status_id } = req.params;
     myLogger.info("ID User %o", id)
