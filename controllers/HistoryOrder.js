@@ -36,9 +36,14 @@ export async function getOrderItemByHistory(id_order) {
 export async function updateStatusDelivery(status_id, id_Order) {
     let params = [parseInt(status_id), parseInt(id_Order)];
     let sql = `update order_purchase set status = ${status_id} where id  = ${id_Order}`;
+    let sql_2 = `  insert into order_by_status_history(order_purchase_id, status_id, created_at)
+    VALUES ( ${id_Order}, ${status_id}, 
+            NOW());`
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
+    let result_2 = await query(sql_2, params);
     myLogger.info("result %o", result)
+    myLogger.info("result 2 %o", result_2)
     ret = { statusCode: OK, data: result };
     return ret;
 }
