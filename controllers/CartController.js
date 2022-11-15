@@ -73,6 +73,7 @@ and account_id = ${id_user}`;
     return ret;
 }
 export async function getAmountPamentV1() {
+    
     let sql = `select id, (total_price + fee_money) as total,  account_name from order_purchase order by id desc limit 1`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql);
