@@ -1,5 +1,5 @@
 import express from 'express';
-import { addOrderPurchase, addToCart, getCartItemById, showCart } from '../controllers/CartController.js';
+import { addOrderPurchase, addToCart, getAmountPamentV1, getCartItemById, showCart } from '../controllers/CartController.js';
 import myLogger from '../winstonLog/winston.js';
 const router = express.Router();
 
@@ -8,6 +8,10 @@ router.post('/', async (req, res, next) => {
     myLogger.info("ID User %o", id)
     let { quantity, id_product_varient } = req.body;
     let response = await addToCart(id, id_product_varient, quantity);
+    next(response);
+})
+router.get('/getAmount', async (req, res, next) => {
+    let response = await getAmountPamentV1();
     next(response);
 })
 
@@ -31,5 +35,10 @@ router.post('/getCartItem', async (req, res, next) => {
     let response = await getCartItemById(id_cart_item, id);
     next(response);
 })
+
+// router.get('/getAmount', async (req, res, next) => {
+//     let response = await getAmountPamentV1();
+//     next(response);
+// })
 
 export default router;
