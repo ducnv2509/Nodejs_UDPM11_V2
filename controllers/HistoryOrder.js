@@ -31,7 +31,7 @@ from order_purchase join order_by_status_history on order_purchase.id = order_by
 
 export async function getOrderItemByHistory(id_order) {
     let params = [parseInt(id_order)];
-    let sql = `select product_variant.id, id_order, image, name, option1, option2, option3, order_purchase_items.price, total_price, order_purchase_items.quantity
+    let sql = `select product_variant.id as 'id_product', order_purchase_items.id , id_order, image, name, option1, option2, option3, order_purchase_items.price, total_price, order_purchase_items.quantity
     from order_purchase_items join product_variant on order_purchase_items.id_product = product_variant.id
     where id_order = ${id_order}`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
