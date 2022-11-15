@@ -8,7 +8,7 @@ import myLogger from "../winstonLog/winston.js";
 
 export async function getHistoryOrder(id_user, status_id) {
     let params = [id_user, status_id];
-    let sql = `select id, total_price, total_quantity, status, type, fee_money, created_time, sum(total_price + fee_money) as 'totalPrice' from order_purchase where account_id = ${id_user}
+    let sql = `select id, total_price, total_quantity, status, type, fee_money, created_time, sum(total_price + fee_money) as 'totalPrice', isReturn from order_purchase where account_id = ${id_user}
     and status = ${status_id}
     group by id, total_price, total_quantity, status, type, fee_money, created_time`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
