@@ -44,4 +44,33 @@ export async function orderReturnByCustomer(account_id, note, id_order_purchase,
 
 
 
+export async function showAllOrderReturn(id_user) {
+    let params = [id_user];
+    let sql = `select * from return_invoice where account_id = ?`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result)
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
+
+
+
+
+export async function showOrderReturnItem(id_return) {
+    let params = [id_return];
+    let sql = `select pr.name,pr.image,concat(pr.option1,',',pr.option2,',',pr.option3,',') as optionProduct,oitem.quantity,oitem.price,oitem.quantity*oitem.price
+                    as totalPrice
+                                from return_item_invoice reitem
+                                join order_purchase_items oitem on reitem.id_purchase_item = oitem.id
+                                 join product_variant pr on pr.id = oitem.id_product
+                                where id_return = ${id_return}`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result)
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
 
