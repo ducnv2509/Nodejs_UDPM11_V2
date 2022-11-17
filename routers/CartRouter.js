@@ -1,5 +1,5 @@
 import express from 'express';
-import { addOrderPurchase, addToCart, getAmountPamentV1, getCartItemById, showCart } from '../controllers/CartController.js';
+import { addOrderPurchase, addToCart, deleteCartIteam, getAmountPamentV1, getCartItemById, showCart, updateQuantityCart } from '../controllers/CartController.js';
 import myLogger from '../winstonLog/winston.js';
 const router = express.Router();
 
@@ -14,6 +14,20 @@ router.get('/getAmount', async (req, res, next) => {
     let response = await getAmountPamentV1();
     next(response);
 })
+
+
+router.post('/updateQuantityCart/', async (req, res, next) => {
+    let { quantity, id_cart_item } = req.body;
+    let response = await updateQuantityCart(quantity, id_cart_item);
+    next(response);
+})
+
+router.post('/deleteCart/', async (req, res, next) => {
+    let { id_cart_item } = req.body;
+    let response = await deleteCartIteam(id_cart_item);
+    next(response);
+})
+
 
 router.post('/addOrderPurchase', async (req, res, next) => {
     let { id } = req.payload

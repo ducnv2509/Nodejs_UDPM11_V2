@@ -73,11 +73,37 @@ and account_id = ${id_user}`;
     return ret;
 }
 export async function getAmountPamentV1() {
-    
+
     let sql = `select id, (total_price + fee_money) as total,  account_name from order_purchase order by id desc limit 1`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql);
     myLogger.info("result %o", result)
     ret = { statusCode: OK, data: result[0] };
+    return ret;
+}
+
+
+
+export async function updateQuantityCart(quantity, id_cart) {
+    let params = [quantity, id_cart];
+    let sql = `call updateQuantityByCartV2(?, ?)`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result[0][0])
+    if (result[0][0].chechk01 == 'chechk01') {
+        ret = { statusCode: BAD_REQUEST, error: 'ERROR', description: 'Số lượng trong kho không đủ !!!' }
+    } else {
+        ret = { statusCode: OK, data: 'Cập nhập số lượNg thành công' };
+    }
+    return ret;
+}
+
+export async function deleteCartIteam(id_cart) {
+    let params = [id_cart];
+    let sql = `delete from cart_items where find_in_set(id, '${id_cart}')`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("result %o", result)
+    ret = { statusCode: OK, data: 'delete successfully' };
     return ret;
 }
