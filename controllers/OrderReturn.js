@@ -69,6 +69,7 @@ export async function showOrderReturnItem(id_return) {
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
     myLogger.info("result %o", result)
+    myLogger.info("result %o")
     ret = { statusCode: OK, data: result };
     return ret;
 }
