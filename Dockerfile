@@ -18,5 +18,6 @@ ENV UDPM11_TOKEN_GHN = '1c05f4b4-5cf8-11ed-8a70-52fa25d1292f'
     WORKDIR /app  
     COPY . /app  
     RUN npm install  
-    EXPOSE 	3001  
+    EXPOSE 	3001/udp 
+    EXPOSE 	3001/tcp 
     CMD node UDPM11.js
