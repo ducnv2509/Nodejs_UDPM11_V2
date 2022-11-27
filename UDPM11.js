@@ -5,7 +5,6 @@ import productAPI from './routers/ProductRouter.js';
 import fetchAPI from './routers/FetchAPIRouter.js';
 import historyOrder from './routers/HistoryRouter.js';
 import orderReturnAPI from './routers/OrderReturnRouter.js';
-import pdfAPI from './routers/PDFRouter.js';
 import cartAPI from './routers/CartRouter.js';
 import myLogger from './winstonLog/winston.js';
 import dotenv from 'dotenv';
@@ -24,7 +23,6 @@ app.use('/api/fetch', fetchAPI);
 app.use('/api/cart', ValidateToken, cartAPI);
 app.use('/api/history', ValidateToken, historyOrder);
 app.use('/api/order', ValidateToken, orderReturnAPI);
-app.use('/api/pdf', pdfAPI);
 
 
 app.use((data, req, res, next) => {
