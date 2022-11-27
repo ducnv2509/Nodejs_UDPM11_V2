@@ -43,7 +43,7 @@ app.use((data, req, res, next) => {
         res.status(statusCode).send(data.data)
     }
 });
-const port = process.env.UDPM11_API_PORT || 3000
+const port = process.env.UDPM11_API_PORT || 3001
 const host = '0.0.0.0';
 function myListener() {
     myLogger.info(`Listening on port ${port}..`);

@@ -2,7 +2,7 @@
 FROM node:16
 #Setting a default value to Argument 
 
-ENV UDPM11_API_PORT = 3003
+ENV UDPM11_API_PORT = 3001
 ENV UDPM11_PORT_DB = 3306
 ENV UDPM11_USER_DB = 'ducnv'
 ENV UDPM11_HOST = '20.189.112.68'
