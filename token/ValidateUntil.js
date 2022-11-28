@@ -15,6 +15,7 @@ export function verifyExists(data) {
         let dataInvaid = { status: 'Failed', description: `${name} is required`, error: "DATA_INVALID" }
         return { statusCode: BAD_REQUEST, data: { dataInvaid } };
     }
+    
     return undefined;
 }
 
