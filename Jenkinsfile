@@ -35,6 +35,12 @@ pipeline {
                sh 'docker-compose up -d'
                     }
                 }
+
+                stage('Send message Slack') {
+                steps {
+                  slackSend channel: 'udpm11_general', message: 'Deploy Successfully', teamDomain: 'ducnvworkspace', tokenCredentialId: 'SlackNoti'
+                }
+            }
             
 
         }
