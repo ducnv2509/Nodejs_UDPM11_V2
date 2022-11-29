@@ -3,8 +3,8 @@ pipeline {
     stages {
             stage('Pull code from git') {
                 steps {
-                      sh 'cd /u03/Nodejs_UDPM11_V2'
-                      sh 'git config --global --add safe.directory /var/lib/jenkins/workspace/CD_Node'
+                      sh 'cd /u02/Nodejs_UDPM11_V2'
+                      sh 'git config --global --add safe.directory /var/lib/jenkins/workspace/CD'
                       sh 'git pull origin master'
                 }
             }
@@ -15,18 +15,18 @@ pipeline {
                 }
 			stage('Change tag') {
                 steps {
-               sh 'docker tag udpm11:lastest 20.189.112.68:9001/repository/udpm11_nodejs/udpm11:lastest'
+               sh 'docker tag udpm11:lastest 180.93.175.236:9001/repository/cdudpm11/udpm11:lastest'
                     }
                 }
                 stage('login to nexus repo') {
                 steps {
-               sh 'docker login 20.189.112.68:9001 -u admin -p admin'
+               sh 'docker login 180.93.175.236:9001 -u admin -p admin'
                     }
                 }
                
   	            stage('Push') {
                 steps {
-                       sh 'docker push 20.189.112.68:9001/repository/udpm11_nodejs/udpm11:lastest'
+                       sh 'docker push 180.93.175.236:9001/repository/cdudpm11/udpm11:lastest'
                 }
             }	
 			
