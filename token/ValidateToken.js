@@ -76,3 +76,37 @@ export function refreshToken(refreshtoken) {
         return { status: false };
     }
 }
+
+
+
+export function genResetPasswordToken(payload) {
+    let signOptions = {
+        expiresIn: "1d",
+        algorithm: "RS256"
+    }
+    payload = { ...payload, type: "RESET_PASSWORD_TOKEN" };
+    let accessToken = jsonwebtoken.sign(payload, privateKEY, signOptions);
+    return accessToken;
+}
+
+
+export function validateResetPasswordToken(req, res, next) {
+    let { token } = req.body;
+    if (!token) {
+        return next({ statusCode: BAD_REQUEST, error: "NO_TOKEN", description: "Không có Token" });
+    }
+    let verifyOptions = {
+        algorithm: "RS256"
+    }
+    try {
+        let payload = jsonwebtoken.verify(token, publicKEY, verifyOptions);
+        req.payload = payload;
+        let { type } = payload;
+        if (type !== "RESET_PASSWORD_TOKEN") {
+            return next({ statusCode: BAD_REQUEST, error: "WRONG_TOKEN", description: "Wrong token type" });
+        }
+        return next();
+    } catch (e) {
+        return next({ statusCode: Unauthorized, error: "TOKEN_EXPIRED", description: "Token hết hạn" });
+    }
+}
