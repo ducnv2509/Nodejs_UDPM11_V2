@@ -3,6 +3,7 @@ import { BAD_REQUEST, OK, SYSTEM_ERROR } from "../constant/HttpResponseCode.js";
 import myLogger from '../winstonLog/winston.js';
 import query from "../helper/helperDb.js";
 import { genRefreshToken, genResetPasswordToken, genToken } from '../token/ValidateToken.js';
+import { sendMailForgotPass } from './FetchMaiilController.js';
 
 export async function register(email, name, pass, phone, username) {
     let params = [email, name, await bcrypt.hash(pass, await bcrypt.genSalt(10)), phone, username]
@@ -73,6 +74,7 @@ export async function forgotPass(email_txt) {
         myLogger.info(token)
         let url_reset = `${base_url}?token=${token}&displayname=${fullname}`
         //todo: send mail, 
+        await sendMailForgotPass(fullname, email_txt, encodeURI(url_reset));
         ret = { statusCode: OK, data: { status: 'Success', url_reset: encodeURI(url_reset), message: 'Check email to get reset password link!!!' } };
     }
 

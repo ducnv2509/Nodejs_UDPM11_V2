@@ -14,6 +14,7 @@ ENV UDPM11_IDLE_CONECTION_POOL=20000
 ENV UDPM11_epassword="upqsjnlxmkxzmtmv"
 ENV UDPM11_eEmail="fptis.info@gmail.com"
 ENV UDPM11_TOKEN_GHN="1c05f4b4-5cf8-11ed-8a70-52fa25d1292f"
+ENV UDPM11_URL_MAIL="http://180.93.175.236:5000/api/"
 
 WORKDIR /app  
 COPY . /app  
