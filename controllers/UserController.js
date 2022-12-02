@@ -57,6 +57,18 @@ export async function showInfoUser(id) {
     return ret;
 }
 
+export async function updateProfile(id, name, email, phone) {
+    let params = [name, email, phone, id]
+    let sql = `update customer_account 
+    set name = ?, email = ?, phone = ? where id = ?`;
+    let sql_show = `select id, name, email, phone from customer_account where id = ${id}`
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    const result = await query(sql, params);
+    const result_show = await query(sql_show);
+    ret = { statusCode: OK, data: result_show[0] };
+    return ret;
+}
+
 
 export async function forgotPass(email_txt) {
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
