@@ -19,6 +19,41 @@ export async function getAllProduct() {
 }
 
 
+
+
+
+
+export async function searchProduct(name) {
+    let params = [name];
+    let sql = `select product.id, pv.image, product.name, wholesale_price
+    from product
+             join product_variant pv on product.id = pv.product_id
+    where pv.position = true and product.name like  lower(concat('%', ?, '%'))
+    order by wholesale_price desc;`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("BUG %o", result[0]);
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
+
+export async function filterCategory(id_cate) {
+    let params = [id_cate];
+    let sql = `
+    select product.id, pv.image, product.name, wholesale_price
+    from product
+             join product_variant pv on product.id = pv.product_id
+    join categories_products cp on product.id = cp.product_id
+    where pv.position = true and category_id = ?
+    order by wholesale_price desc;`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql, params);
+    myLogger.info("BUG %o", result[0]);
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
 export async function getDetailsProduct(idtxt) {
     let sqlGetOptionProduct = "call getOptionProduct(?)";
     let sqlGetDetailProduct = "call getDetailProduct(?)";
