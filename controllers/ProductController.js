@@ -39,16 +39,26 @@ export async function searchProduct(name) {
 
 
 export async function filterCategory(id_cate) {
-    let params = [id_cate];
     let sql = `
-    select product.id, pv.image, product.name, wholesale_price
+    select distinct product.id, pv.image, product.name, wholesale_price
     from product
              join product_variant pv on product.id = pv.product_id
     join categories_products cp on product.id = cp.product_id
-    where pv.position = true and category_id = ?
+    where pv.position = true and find_in_set(category_id, '${id_cate}')
     order by wholesale_price desc;`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
-    let result = await query(sql, params);
+    let result = await query(sql);
+    myLogger.info("BUG %o", result[0]);
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
+
+
+export async function showCategory() {
+    let sql = `select  * from categories`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql);
     myLogger.info("BUG %o", result[0]);
     ret = { statusCode: OK, data: result };
     return ret;

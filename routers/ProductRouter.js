@@ -1,11 +1,17 @@
 
 
 import express from 'express';
-import { filterCategory, getAllProduct, getDetailsProduct, getProductVarientByOption, searchProduct } from '../controllers/ProductController.js';
+import { filterCategory, getAllProduct, getDetailsProduct, getProductVarientByOption, searchProduct, showCategory } from '../controllers/ProductController.js';
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     let response = await getAllProduct();
+    next(response);
+})
+
+
+router.get('/showCate', async (req, res, next) => {
+    let response = await showCategory();
     next(response);
 })
 
@@ -15,8 +21,8 @@ router.get('/search', async (req, res, next) => {
     next(response);
 })
 
-router.get('/cate/:id', async (req, res, next) => {
-    let { id } = req.params;
+router.post('/cate', async (req, res, next) => {
+    let { id } = req.body;
     let response = await filterCategory(id);
     next(response);
 })
