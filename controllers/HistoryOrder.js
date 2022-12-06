@@ -19,9 +19,9 @@ from order_purchase join order_by_status_history on order_purchase.id = order_by
     let result = await query(sql, params);
     let info = [];
     result.forEach((e) => {
-        let { id, total_price, total_quantity, status, type, fee_money, created_time, totalPrice, isReturn, date_main } = e;
+        let { id, total_price, total_quantity, status, type, fee_money, created_time, totalPrice, isReturn, date_main, code } = e;
         let date = formatDateFMT("YYYY-MM-DD", date_main);
-        info.push({ id, total_price, total_quantity, status, type, fee_money, created_time, totalPrice, isReturn, date_main: date })
+        info.push({ id, total_price, total_quantity, status, type, fee_money, created_time, totalPrice, isReturn, date_main: date, code })
     })
     myLogger.info("result %o", result)
     ret = { statusCode: OK, data: info };
