@@ -13,7 +13,8 @@ export async function getHistoryOrder(id_user, status_id) {
     DATE (created_at )as 'date_main'
 from order_purchase join order_by_status_history on order_purchase.id = order_by_status_history.order_purchase_id where account_id = ${id_user}
  and status = ${status_id} and status_id = ${status_id}
- group by id, total_price, total_quantity, status, type, fee_money, created_time`;
+ group by id, total_price, total_quantity, status, type, fee_money, created_time
+ order by id desc;`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
     let info = [];

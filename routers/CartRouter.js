@@ -31,9 +31,9 @@ router.post('/deleteCart/', async (req, res, next) => {
 
 router.post('/addOrderPurchase', async (req, res, next) => {
     let { id } = req.payload
-    let { address, note, id_cart_items, money_fee } = req.body
+    let { address, note, id_cart_items, money_fee, type } = req.body
     myLogger.info('router %o', id_cart_items)
-    let response = await addOrderPurchase(id, address, note, id_cart_items, money_fee);
+    let response = await addOrderPurchase(id, address, note, id_cart_items, money_fee, type);
     next(response);
 })
 
