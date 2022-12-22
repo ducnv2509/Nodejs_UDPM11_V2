@@ -1,11 +1,12 @@
 import express from 'express';
 import { forgotPass, login, register, resetpass, showInfoUser, updateProfile } from '../controllers/UserController.js';
 import { validateResetPasswordToken, ValidateToken } from '../token/ValidateToken.js';
+import { registerValidate } from '../validator/Validator.js';
 import myLogger from '../winstonLog/winston.js';
 // import { sendMail } from '../controllers/SendMail.js';
 const router = express.Router();
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', registerValidate, async (req, res, next) => {
     let { email, name, pass, phone, username } = req.body;
     let response = await register(email, name, pass, phone, username);
     next(response);

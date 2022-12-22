@@ -46,7 +46,7 @@ export async function orderReturnByCustomer(account_id, note, id_order_purchase,
 
 export async function showAllOrderReturn(id_user) {
     let params = [id_user];
-    let sql = `select * from return_invoice where account_id = ?`;
+    let sql = `select r.*, op.code as 'codeInvoice' from return_invoice r join order_purchase op on r.id_order_purchase = op.id where r.account_id = ?`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
     myLogger.info("result %o", result)

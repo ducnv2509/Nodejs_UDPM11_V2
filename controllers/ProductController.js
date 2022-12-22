@@ -55,6 +55,33 @@ export async function filterCategory(id_cate) {
 
 
 
+
+export async function sellingProduct() {
+    let sql = `
+    select p.id, pv.image, pv.name, wholesale_price from order_purchase_items opi join product_variant pv on
+    opi.id_product = pv.id
+                  join product p on pv.product_id = p.id
+group by pv.id
+order by quantity  desc limit 5`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql);
+    myLogger.info("BUG %o", result[0]);
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
+
+export async function popularProducts() {
+    let sql = `
+    select product.id, product.name, pv.image, wholesale_price from product join product_variant pv on product.id = pv.product_id
+where position = true group by product.name order by pv.create_at desc limit 3`;
+    let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
+    let result = await query(sql);
+    myLogger.info("BUG %o", result[0]);
+    ret = { statusCode: OK, data: result };
+    return ret;
+}
+
 export async function showCategory() {
     let sql = `select  * from categories`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
@@ -75,8 +102,8 @@ export async function getDetailsProduct(idtxt) {
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let resultGetOptionProduct = await query(sqlGetOptionProduct, params);
     let resultGetDetailProduct = await query(sqlGetDetailProduct, params);
-    let { quantity, product_id, id, name, image, wholesale_price, option1, option2, option3 } = resultGetDetailProduct[0][0];
-    InfoProduct.push({ quantity, product_id, id, name: name.split('-')[0], image, price: wholesale_price, option1, option2, option3 })
+    let { quantity, product_id, id, name, image, wholesale_price, option1, option2, option3, code } = resultGetDetailProduct[0][0];
+    InfoProduct.push({ quantity, product_id, id, name: name.split('-')[0], image, price: wholesale_price, option1, option2, option3, code })
     let { OP1, OP2, OP3 } = resultGetOptionProduct[0][0];
     Option1.push(OP1.split(','))
     Option2.push(OP2.split(','))

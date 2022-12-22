@@ -9,8 +9,22 @@ export async function register(email, name, pass, phone, username) {
     let params = [email, name, await bcrypt.hash(pass, await bcrypt.genSalt(10)), phone, username]
     let sql = `CALL register(?, ?, ?, ?, ?)`;
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
-    const result = await query(sql, params);
-    ret = { statusCode: OK, data: result[0][0] };
+    await query(`select 1 from customer_account where username = ? or phone = ? or email = ?`, [username, phone, email]).then(async res => {
+        if (res.length > 0) {
+            ret = {
+                statusCode: SYSTEM_ERROR, error: 'ERROR',
+                error: {
+                    dataInvaid: {
+
+                        description: `Trùng dữ liệu. Hãy kiểm tra lại !`
+                    }
+                }
+            }
+        } else {
+            const result = await query(sql, params);
+            ret = { statusCode: OK, data: result[0][0] };
+        }
+    })
     return ret;
 }
 

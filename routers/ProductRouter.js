@@ -1,7 +1,7 @@
 
 
 import express from 'express';
-import { filterCategory, getAllProduct, getDetailsProduct, getProductVarientByOption, searchProduct, showCategory } from '../controllers/ProductController.js';
+import { filterCategory, getAllProduct, getDetailsProduct, getProductVarientByOption, popularProducts, searchProduct, sellingProduct, showCategory } from '../controllers/ProductController.js';
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -12,6 +12,17 @@ router.get('/', async (req, res, next) => {
 
 router.get('/showCate', async (req, res, next) => {
     let response = await showCategory();
+    next(response);
+})
+
+router.get('/selling', async (req, res, next) => {
+    let response = await sellingProduct();
+    next(response);
+})
+
+
+router.get('/popular', async (req, res, next) => {
+    let response = await popularProducts();
     next(response);
 })
 
