@@ -31,7 +31,7 @@ export async function addToCart(id_user, id_product_varient, quantity) {
 
 export async function showCart(id_user) {
     let params = [id_user];
-    let sql = `select pv.id as 'id_product_variant', ci.id as 'id_cart_item', pv.name, pv.wholesale_price, ci.quantity, pv.image, pv.wholesale_price * ci.quantity as 'priceTotal', option1, option2, option3 from cart_items ci join cart c on ci.id_cart = c.id
+    let sql = `select pv.id as 'id_product_variant', ci.id as 'id_cart_item', pv.name, pv.wholesale_price, ci.quantity, pv.image, pv.wholesale_price * ci.quantity as 'priceTotal', option1, option2, option3, pv.sale_price from cart_items ci join cart c on ci.id_cart = c.id
     join product_variant pv on pv.id = ci.id_product where c.account_id =` + id_user + ' order by ci.id desc';
     let ret = { statusCode: SYSTEM_ERROR, error: 'ERROR', description: 'First error!' };
     let result = await query(sql, params);
@@ -59,7 +59,7 @@ export async function addOrderPurchase(id_user, address, note, id_cart_items, mo
 
 export async function getCartItemById(id, id_user) {
     let params = [id, id_user];
-    let sql = `select cart_items.*, pv.image, pv.wholesale_price, pv.name, pv.option1, pv.option2, pv.option3,
+    let sql = `select cart_items.*, pv.image, pv.wholesale_price, pv.name, pv.option1, pv.option2, pv.option3, pv.sale_price
     cart_items.quantity * pv.wholesale_price as 'priceTotal'
 from cart_items
       join cart on cart_items.id_cart = cart.id
