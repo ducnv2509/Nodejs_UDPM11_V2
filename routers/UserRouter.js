@@ -25,7 +25,6 @@ router.get('/info', ValidateToken, async (req, res, next) => {
 })
 
 
-
 router.post('/resetPass', validateResetPasswordToken, async (req, res, next) => {
     let { email } = req.payload;
     let { new_password } = req.body
